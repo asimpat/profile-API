@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: My Profile API
+  version: 1.0.0
+  description: API that returns my profile information
+paths:
+  /me/:
+    get:
+      operationId: me_retrieve
+      tags:
+      - me
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
