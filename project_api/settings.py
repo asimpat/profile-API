@@ -31,9 +31,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'drf_spectacular',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -44,6 +46,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'project_api.urls'
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 TEMPLATES = [
     {

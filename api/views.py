@@ -4,19 +4,25 @@ from rest_framework import status
 from datetime import datetime
 import requests
 from decouple import config
+import logging
 
+# Simple logging setup
+logger = logging.getLogger(__name__)
 
 USER_EMAIL = config('USER_EMAIL')
 USER_NAME = config('USER_NAME')
 USER_STACK = config('USER_STACK')
 
+
 @api_view(['GET'])
 def me(request):
+    logger.info("GET /me endpoint called") 
+
     try:
         # Fetch cat fact from external API
         cat_response = requests.get(
             'https://catfact.ninja/fact',
-            timeout=5 
+            timeout=5
         )
 
         if cat_response.status_code == 200:
@@ -24,7 +30,7 @@ def me(request):
         else:
             cat_fact = 'Cats are mysterious creatures.'
 
-    except requests.exceptions.RequestException as e:
+    except requests.exceptions.RequestException:
         # Fallback if API fails
         cat_fact = 'Cats are wonderful pets.'
 
@@ -32,12 +38,12 @@ def me(request):
     current_timestamp = datetime.utcnow().strftime(
         '%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
 
-    #response
+    # Build response
     response_data = {
         "status": "success",
         "user": {
             "email": USER_EMAIL,
-            "name": USER_NAME,         
+            "name": USER_NAME,
             "stack": USER_STACK
         },
         "timestamp": current_timestamp,
